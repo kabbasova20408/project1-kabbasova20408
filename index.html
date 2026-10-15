@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E Building Auditorium</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>E Building Auditorium - Ticket Selection</h1>
+        <p>Click a seat to inspect it, then press <strong>ADD TO CART</strong> to select it.</p>
+    </header>
+
+    <main class="layout">
+        <section>
+            <p class="legend">
+                <span class="key premium">Premium $60</span>
+                <span class="key standard">Standard $40</span>
+                <span class="key economy">Economy $25</span>
+                <span class="key unavailable">Unavailable</span>
+                <span class="key incart">In Cart</span>
+            </p>
+            <div class="controls">
+                <button id="zoomIn">Zoom In</button>
+                <button id="zoomOut">Zoom Out</button>
+                <button id="up"> Move Up</button>
+                <button id="down">Move Down</button>
+                <button id="left">Move Left</button>
+                <button id="right">Move Right</button>
+                <button id="reset">Reset / Center</button>
+            </div>
+            <div class="viewport">
+                <div id="map"></div>
+            </div>
+        </section>
+        <aside>
+            <div class="box">
+                <h2>Seat details</h2>
+                <div id="details"><p>Click a seat to view its details.</p></div>
+                <button id="addBtn" disabled>ADD TO CART</button>
+                <p id="message"></p>
+            </div>
+            <div class="box">
+                <h2>Cart</h2>
+                <ul id="cartList"></ul>
+                <p>Total:<strong id="total">$0</strong></p>
+            </div>
+
+        </aside>
+    </main>
+    <script src="script.js"></script>
+
+</body>
+</html>
