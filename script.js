@@ -13,12 +13,12 @@ const venue ={
         {name: 'Standard',
         type: 'standard',
         rows:['F', 'G', 'H', 'I', 'J'],
-        seats: 20
+        seats: 16
         },
         {name: 'Economy',
         type: 'economy',
         rows:['K', 'L', 'M', 'N', 'O'],
-        seats: 30
+        seats: 18
         }
     ],
     unavailable: ['A3','A4','B7','C1','C10','D5','E2','F1','F2','G3','H4','I5','J6','K7','L8','M9','N10','O11']
@@ -55,7 +55,7 @@ function buildMap(){
                     price: venue.prices[section.type]
                 };
                 const btn = document.createElement('button');
-                btn.className = 'seat'+ section.type;
+                btn.className = 'seat '+ section.type;
                 btn.id='seat-'+id;
                 btn.textContent=n;
                 rowDiv.appendChild(btn);
