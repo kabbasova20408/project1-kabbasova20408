@@ -146,3 +146,6 @@ button:disabled{
     color: #777;
     cursor: not-allowed;
 }
+.seat.inspected{
+    outline: 3px solid #1f6feb;
+}

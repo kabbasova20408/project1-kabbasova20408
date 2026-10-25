@@ -26,6 +26,7 @@ const venue ={
 
 const seats={};
 const map = document.getElementById('map');
+let inspected=null;
 
 function buildMap(){
     const stage = document.createElement('div');
@@ -52,16 +53,43 @@ function buildMap(){
                     number: n,
                     section: section.name,
                     type: section.type,
-                    price: venue.prices[section.type]
+                    price: venue.prices[section.type],
+                    unavailable: venue.unavailable.includes(id)
                 };
                 const btn = document.createElement('button');
                 btn.className = 'seat '+ section.type;
                 btn.id='seat-'+id;
                 btn.textContent=n;
+                btn.addEventListener('click',()=>inspect(id));
                 rowDiv.appendChild(btn);
             }
             map.appendChild(rowDiv);
         });
     });   
 }
+
+function updateSeat(id){
+    const btn = document.getElementById('seat-'+id);
+    btn.classList.toggle('unavailable',seats[id].unavailable);
+    btn.classList.toggle('inspected',id===inspected);
+}
+function inspect(id){
+    const old=inspected;
+    inspected=id;
+    if(old) updateSeat(old);
+    updateSeat(id);
+    showDetails()
+}
+function showDetails(){
+    const s= seats[inspected];
+    const addBtn = document.getElementById('addBtn');
+    let status = 'Available';
+    if (s.unavailable) status='Unavailable';
+
+    document.getElementById('details').innerHTML='<p><strong>'+s.section+ '</strong><br>Row '+s.row+", Seat "+s.number+
+    '<br>Price: $'+s.price+'<br>Status: '+status+'</p>'
+    addBtn.disabled=status!=='Available';
+
+}
 buildMap();
+Object.keys(seats).forEach(updateSeat);
