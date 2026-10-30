@@ -26,6 +26,8 @@ const venue ={
 
 const seats={};
 const map = document.getElementById('map');
+const viewport =document.querySelector('.viewport');
+let scale = 1, x=0, y=0;
 let inspected=null;
 
 function buildMap(){
@@ -91,5 +93,24 @@ function showDetails(){
     addBtn.disabled=status!=='Available';
 
 }
+
+function applyView(){
+    scale= Math.min(2.5,Math.max(0.5,scale));
+    map.style.transform = 'translate('+x+'px, '+y+'px) scale('+scale+')';
+}
+function zoomAt(delta,px,py){
+    const oldScale=scale;
+    scale = Math.min(2.5,Math.max(0.5,scale+delta));
+    x=px-(px-x)*(scale/oldScale);
+    y=py-(py-y)*(scale/oldScale);
+    applyView();
+}
+
+document.getElementById('zoomIn').onclick = () => zoomAt(0.25,viewport.clientWidth/2, viewport.clientHeight/2);
+document.getElementById('zoomOut').onclick = () => zoomAt(-0.25,viewport.clientWidth/2, viewport.clientHeight/2);
+document.getElementById('up').onclick = ()=>{y+=60;applyView();};
+document.getElementById('down').onclick = ()=>{y-=60;applyView();};
+document.getElementById('left').onclick = ()=>{x+=60;applyView();};
+document.getElementById('right').onclick = ()=>{x-=60;applyView();};
 buildMap();
 Object.keys(seats).forEach(updateSeat);
