@@ -153,3 +153,6 @@ button:disabled{
 .seat.inspected{
     outline: 3px solid #1f6feb;
 }
+.seat.incart{
+    background: #222;
+}

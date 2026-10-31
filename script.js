@@ -21,7 +21,7 @@ const venue ={
         seats: 18
         }
     ],
-    unavailable: ['A3','A4','B7','C1','C10','D5','E2','F1','F2','G3','H4','I5','J6','K7','L8','M9','N10','O11']
+    unavailable: ['A3','A4','B7','C1','C10','D5','E2','F1','F11','G3','H10','I5','J8','K13','L10','M6','N4','N12','O15']
 };
 
 const seats={};
@@ -29,6 +29,7 @@ const map = document.getElementById('map');
 const viewport =document.querySelector('.viewport');
 let scale = 1, x=0, y=0;
 let inspected=null;
+let cart =[];
 
 function buildMap(){
     const stage = document.createElement('div');
@@ -74,6 +75,7 @@ function updateSeat(id){
     const btn = document.getElementById('seat-'+id);
     btn.classList.toggle('unavailable',seats[id].unavailable);
     btn.classList.toggle('inspected',id===inspected);
+    btn.classList.toggle('incart',cart.includes(id));
 }
 function inspect(id){
     const old=inspected;
@@ -81,18 +83,33 @@ function inspect(id){
     if(old) updateSeat(old);
     updateSeat(id);
     showDetails()
+    document.getElementById('message').textContent='';
 }
 function showDetails(){
     const s= seats[inspected];
     const addBtn = document.getElementById('addBtn');
     let status = 'Available';
     if (s.unavailable) status='Unavailable';
+    else if(cart.includes(s.id)) status="In your cart";
 
     document.getElementById('details').innerHTML='<p><strong>'+s.section+ '</strong><br>Row '+s.row+", Seat "+s.number+
     '<br>Price: $'+s.price+'<br>Status: '+status+'</p>'
     addBtn.disabled=status!=='Available';
 
 }
+function addToCart(){
+    const s = seats[inspected];
+    if(!s || s.unavailable) return;
+    if(cart.includes(s.id)){
+        document.getElementById('message').textContent='Seat already in cart.';
+        return;
+    }
+    cart.push(s.id);
+    updateSeat(s.id);
+    showDetails();
+    document.getElementById('message').textContent='Added to cart.'
+}
+document.getElementById('addBtn').onclick = addToCart;
 
 function applyView(){
     scale= Math.min(2.5,Math.max(0.5,scale));
