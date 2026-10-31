@@ -97,6 +97,17 @@ function showDetails(){
 function applyView(){
     scale= Math.min(2.5,Math.max(0.5,scale));
     map.style.transform = 'translate('+x+'px, '+y+'px) scale('+scale+')';
+    const vw = viewport.clientWidth, vh=viewport.clientHeight;
+    const mw = map.offsetWidth*scale, mh = map.offsetHeight*scale;
+    x= mw <= vw ? (vw-mw)/2 : Math.min(0,Math.max(vw-mw,x)); 
+    y= mh <= vh ? (vh-mh)/2 : Math.min(0,Math.max(vh-mh,y));
+}
+
+function resetView(){
+    scale= 1;
+    x=(viewport.clientWidth-map.offsetWidth)/2;
+    y=0;
+    applyView()
 }
 function zoomAt(delta,px,py){
     const oldScale=scale;
@@ -105,6 +116,7 @@ function zoomAt(delta,px,py){
     y=py-(py-y)*(scale/oldScale);
     applyView();
 }
+document.getElementById('reset').onclick =resetView;
 
 document.getElementById('zoomIn').onclick = () => zoomAt(0.25,viewport.clientWidth/2, viewport.clientHeight/2);
 document.getElementById('zoomOut').onclick = () => zoomAt(-0.25,viewport.clientWidth/2, viewport.clientHeight/2);
@@ -114,3 +126,4 @@ document.getElementById('left').onclick = ()=>{x+=60;applyView();};
 document.getElementById('right').onclick = ()=>{x-=60;applyView();};
 buildMap();
 Object.keys(seats).forEach(updateSeat);
+resetView();
