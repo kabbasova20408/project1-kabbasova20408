@@ -107,9 +107,35 @@ function addToCart(){
     cart.push(s.id);
     updateSeat(s.id);
     showDetails();
+    renderCart();
     document.getElementById('message').textContent='Added to cart.'
 }
 document.getElementById('addBtn').onclick = addToCart;
+
+function removeFromCArt(id){
+    cart = cart.filter(item => item!==id);
+    updateSeat(id);
+    if(inspected) showDetails();
+    renderCart();
+}
+
+function renderCart(){
+    const list = document.getElementById('cartList');
+    list.innerHTML='';
+    let total =0;
+    cart.forEach(id=>{
+        const s = seats[id];
+        total+=s.price;
+        const li = document.createElement('li');
+        li.innerHTML = '<span>'+s.section+' '+s.row+s.number+' -$'+s.price+'</span>';
+        const btn = document.createElement('button');
+        btn.textContent='Remove';
+        btn.addEventListener('click', ()=>removeFromCArt(id));
+        li.appendChild(btn);
+        list.appendChild(li);
+    });
+    document.getElementById('total').textContent = '$'+total;
+}
 
 function applyView(){
     scale= Math.min(2.5,Math.max(0.5,scale));
