@@ -156,3 +156,11 @@ button:disabled{
 .seat.incart{
     background: #222;
 }
+@media(max-width: 800px){
+    .layout{
+        grid-template-columns: 1fr;
+    }
+    .viewport{
+        height: 360px;
+    }
+}

@@ -166,6 +166,7 @@ function resetView(){
     y=0;
     applyView()
 }
+window.addEventListener('resize',applyView);
 function zoomAt(delta,px,py){
     const oldScale=scale;
     scale = Math.min(2.5,Math.max(0.5,scale+delta));
