@@ -1,4 +1,5 @@
 const venue ={
+    storageKey: 'eBuildingAuditoriumCart',
     prices:{ 
         premium: 60,
         standard: 40,
@@ -105,6 +106,7 @@ function addToCart(){
         return;
     }
     cart.push(s.id);
+    save();
     updateSeat(s.id);
     showDetails();
     renderCart();
@@ -114,6 +116,7 @@ document.getElementById('addBtn').onclick = addToCart;
 
 function removeFromCArt(id){
     cart = cart.filter(item => item!==id);
+    save();
     updateSeat(id);
     if(inspected) showDetails();
     renderCart();
@@ -135,6 +138,17 @@ function renderCart(){
         list.appendChild(li);
     });
     document.getElementById('total').textContent = '$'+total;
+}
+function save(){
+    localStorage.setItem(venue.storageKey,JSON.stringify(cart));
+}
+function load(){
+    try{
+        const saved = JSON.parse(localStorage.getItem(venue.storageKey)) || [];
+        cart = saved.filter((id,i) => seats[id] && !seats[id].unavailable && saved.indexOf(id)===i);
+    }catch(e){
+        cart=[];
+    }
 }
 
 function applyView(){
@@ -168,5 +182,7 @@ document.getElementById('down').onclick = ()=>{y-=60;applyView();};
 document.getElementById('left').onclick = ()=>{x+=60;applyView();};
 document.getElementById('right').onclick = ()=>{x-=60;applyView();};
 buildMap();
+load();
 Object.keys(seats).forEach(updateSeat);
+renderCart();
 resetView();
