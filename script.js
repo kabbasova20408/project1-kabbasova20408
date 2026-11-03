@@ -113,6 +113,12 @@ function addToCart(){
     document.getElementById('message').textContent='Added to cart.'
 }
 document.getElementById('addBtn').onclick = addToCart;
+viewport.addEventListener('wheel',e =>{
+    e.preventDefault();
+    zoomAt(e.deltaY < 0 ? 0.1 : -0.1, viewport.clientWidth / 2, viewport.clientHeight / 2);
+},{
+    passive: false
+});
 
 function removeFromCArt(id){
     cart = cart.filter(item => item!==id);
